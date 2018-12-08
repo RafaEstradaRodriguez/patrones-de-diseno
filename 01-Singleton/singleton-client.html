@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Singleton Ejemplo</title>
+    <!--<script type="module" src="singleton.js"></script>-->
+</head>
+<body>
+
+    <h1>Ejemplo de Singleton</h1>
+
+    <code>Voy a crear un objeto Core...</code>
+    <p id="date1"></p>
+    <p id="children1" style="margin-bottom: 1rem;"></p>
+    <hr>
+    <code>Voy a crear un segundo objeto Core...</code>
+    <p id="date2"></p>
+    <p id="children2"></p>
+    <hr>
+    <code>Consulto de nuevo el objeto Core...</code>
+    <p id="date3"></p>
+    <p id="children3" style="margin-bottom: 1rem;"></p>
+
+    <script type="module">
+        import { CoreHandler } from './singleton.js';
+
+        let core = new CoreHandler();
+        core.pushChildrenProcess({
+            pid: "123",
+            date: new Date()
+        });
+        console.log("(1) Hijos: %d", core.getChildrenNum() );
+        document.getElementById("date1").innerText = `Core creado el ${core.creationDate}`;
+        document.getElementById("children1").innerText = `Child processes ${JSON.stringify(core.children)}`;
+
+        let core2 = new CoreHandler();
+        core2.pushChildrenProcess({
+            pid: "456",
+            date: new Date()
+        });
+
+        console.log("(2) Hijos: %d", core2.getChildrenNum() );
+        let core3 = new CoreHandler();
+
+        core3.pushChildrenProcess({
+            pid: "789",
+            date: new Date()
+        });
+
+        console.log("(3) Hijos: %d", core3.getChildrenNum() );
+        console.log(core.children);
+
+        document.getElementById("date2").innerText = `Core creado el ${core2.creationDate}`;
+        document.getElementById("children2").innerText = `Child processes ${JSON.stringify(core2.children)}`;
+
+        document.getElementById("date3").innerText = `Core creado el ${core.creationDate}`;
+        document.getElementById("children3").innerText = `Child processes ${JSON.stringify(core.children)}`;
+
+    </script>
+
+
+
+
+</body>
+</html>

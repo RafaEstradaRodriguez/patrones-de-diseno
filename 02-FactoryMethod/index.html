@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patrón - Factory Method</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        label {
+            display: block;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        select {
+            margin: .5rem;
+            font-size: 1rem;
+        }
+
+        button {
+            line-height: 1.5rem;
+            display: block;
+            background-color: coral;
+            color: #fFF;
+            font-size: 1rem;
+            margin: .5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<label for="paymentType">Seleccione el tipo de pago que desee:</label>
+<select name="paymentType" id="paymentType">
+    <option value="1">Tarjeta de crédito</option>
+    <option value="2">Contrareembolso</option>
+</select>
+
+<button id="paymentCreator">Confirmar modo de pago</button>
+
+
+<script type="module">
+    import { PaymentFactory } from "./PaymentFactory.js";
+
+    /*let paymentObj = null;
+
+    */
+    let paymentCreator = document.getElementById("paymentCreator");
+    let paymentType = document.getElementById("paymentType");
+
+    paymentCreator.addEventListener('click', () => {
+        let res = PaymentFactory.getPayment(paymentType.selectedIndex + 1);
+        console.info("Tipo de pago", res.getType());
+
+        if (res.hasAssocTax()) {
+            console.warn("Ojo: el tipo asociado contiene un recargo asociado");
+        }
+    });
+
+</script>
+
+</body>
+</html>
