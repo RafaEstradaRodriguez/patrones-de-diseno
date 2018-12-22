@@ -1,0 +1,208 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0; margin: 0;
+}
+h1 {
+    padding: 2rem 2rem 1rem 1rem;
+    font-size: 1.5rem;
+    margin: 2rem 1rem .5rem 1rem;
+    border: 1px solid #EEE;
+    background-color: #FAFAFA;
+    height: auto;
+    text-align: center;
+    box-shadow: 1px 2px 5px rgba(0,0,0, .2);
+    position: relative;
+}
+
+h1::before {
+    content: "contenido a copiar";
+    position: absolute;
+    text-transform: uppercase;
+    color: #F34A5D;
+    font-size: .7rem;
+    top: -.7rem;
+    left: .7rem;
+
+    display: inline-block;
+    padding: .3rem;
+    border:1px solid #F34A5D;
+    background-color: #FDEEF0;
+    box-shadow: 1px 1px 3px rgba(0,0,0, .4);
+}
+
+#player-sentence {
+    color: #1a5211;
+}
+
+#player-sentence::before {
+    content: "lo que estás escribiendo...";
+}
+
+p {
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+header {
+    background-color: #454253;
+    padding: 1rem 0;
+    position: relative;
+}
+
+div.wrapper-tiempo {
+    background-color: #F34A5D;
+    border-radius: 60%;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+    color: #FFF;
+    padding: 0;
+    margin: .5rem auto 0 auto;
+}
+
+header p {
+    text-transform: uppercase;
+    font-size: .7rem;
+    font-weight: 400;
+    margin: 0;
+    padding:0;
+}
+
+header h2 {
+    height: 4rem;
+    font-size: 3rem;
+    margin:0;
+    padding: 0;
+}
+
+header h2 > span {
+    font-size: 1.7rem;
+
+}
+
+textarea {
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
+    height: 5rem;
+    font-size: 1.4rem;
+    font-family: inherit;
+    padding: 1rem;
+    margin: 1rem 1rem 0 1rem;
+}
+
+textarea:focus {
+    animation: focusText .2s;
+    outline: none;
+    border:2px solid #11A632;
+    background-color: #E9F6EC;
+}
+
+@keyframes focusText {
+    0% {
+        transform: scale(1);
+    }
+
+    80% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+input[type="button"] {
+    background-color: #11A632;
+    color: #fff;
+    border-radius: 30px;
+    display: block;
+    width: 50%;
+    height: 2.5rem;
+    font-size: 1.1rem;
+    outline: none;
+    margin: .8rem auto;
+    cursor: pointer;
+}
+
+.player {
+    position: absolute;
+    top: 20%;
+}
+
+#player1 {
+    left: 10%;
+}
+
+#player2 {
+    right: 10%;
+}
+
+.label-user {
+    color: #BBBAC0;
+    font-weight: 600;
+}
+
+.player__data {
+    color: #FFF;
+    font-size: 1rem;
+    margin-bottom: .8rem;
+}
+
+.winner-lightbox, #player-turn {
+    min-width: 100vw;
+    min-height: 100vh;
+    position: absolute;
+    background-color: rgba(0,0,0,.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+.winner-lightbox div, #player-turn div {
+    width: 60vw;
+    height: 40vh;
+    background-color: #f34a5d;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    border: 2px solid #FF6778;
+    border-radius: 3px;
+    box-shadow: 3px 5px 5px rgba(0,0,0,.3);
+}
+
+.winner-lightbox div > h4 {
+    font-size: 3rem;
+    margin: 1rem;
+}
+
+.winner-lightbox.off, #player-turn.off {
+    display: none;
+}
+
+dt {
+    font-size: .9rem;
+    font-weight: 600;
+    padding-bottom: .3rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+dd {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    padding: 0;
+}
+
+#player-turn h4 {
+    font-size: 2rem;
+    display:block;
+}
+
+

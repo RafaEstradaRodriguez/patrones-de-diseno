@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Command Ejemplo</title>
+</head>
+<body>
+
+<audio src="" id="audio" controls></audio>
+
+<button id="save">Grabar</button>
+<button id="stop">Stop</button>
+<button id="play">Play</button>
+
+<script type="module">
+    import Micro from './Micro.js';
+    import MicroCommand from "./MicroCommand.js";
+
+    let stop = document.getElementById("stop");
+    let play = document.getElementById("play");
+    let save = document.getElementById("save");
+
+    let recorder = null;
+
+    let micro = new MicroCommand(new Micro());
+    let streamChunks = [];
+
+    micro.execute('capture').then((stream) => {
+        console.log("Recording....");
+        recorder = new MediaRecorder(stream);
+
+        stop.addEventListener('click', () => {
+            recorder.stop();
+        });
+
+        recorder.addEventListener('dataavailable', e => {
+            if (e.data.size > 0) {
+                streamChunks.push(e.data);
+            }
+        })
+
+        recorder.addEventListener('stop', () => {
+            audio.src = window.URL.createObjectURL(new Blob(streamChunks));
+        })
+
+        recorder.start();
+        //micro.setMicro(res);
+    })
+
+</script>
+
+</body>
+</html>

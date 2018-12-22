@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie JSON Maker</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+        }
+        label {
+            display: block;
+            font-size: .7rem;
+            margin: .5rem 0;
+            font-weight: bold;
+        }
+
+        input {
+            font-family: inherit;
+            font-size: .9rem;
+            padding: .5rem;
+        }
+
+        .actores-wrapper {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 40px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .actores-wrapper label {
+            padding: 0;
+            margin-left: -1rem;
+        }
+
+        .actores {
+            font-size: .7rem;
+            margin-top: 2rem;
+        }
+
+        button, input[type="submit"] {
+            border:1px solid #1a5211;
+            background-color: #2A8E15;
+            color: #fff;
+            font-size: .8rem;
+            padding: .4rem;
+            cursor: pointer;
+            margin: 1rem .6rem 0 0;
+        }
+
+    </style>
+</head>
+<body>
+
+<form action="#" method="method" id="moviesForm">
+
+<label for="titulo">Título</label>
+<input type="text" id="titulo" name="titulo">
+
+<datalist id="generos">
+    <option value="Drama"></option>
+    <option value="Ficcion"></option>
+    <option value="Comedia"></option>
+    <option value="Terror"></option>
+</datalist>
+
+<label for="genero">Género</label>
+<input list="generos" name="genero" id="genero">
+
+<label for="anio">Año</label>
+<select name="anio" id="anio">
+    <option value="2012">2012</option>
+    <option value="2013">2013</option>
+    <option value="2014">2014</option>
+    <option value="2015">2015</option>
+    <option value="2016">2016</option>
+    <option value="2017">2017</option>
+    <option value="2018">2018</option>
+</select>
+
+<p class="actores"><b>Actores</b></p>
+<div class="actores-wrapper">
+    <input type="checkbox" name="actores" id="actor1" value="actor1"><label for="actor1">Actor 1</label>
+    <input type="checkbox" name="actores" id="actor2" value="actor2"><label for="actor2">Actor 2</label>
+    <input type="checkbox" name="actores" id="actor3" value="actor3"><label for="actor3">Actor 3</label>
+    <input type="checkbox" name="actores" id="actor4" value="actor4"><label for="actor4">Actor 4</label>
+    <input type="checkbox" name="actores" id="actor5" value="actor5"><label for="actor5">Actor 5</label>
+    <input type="checkbox" name="actores" id="actor6" value="actor6"><label for="actor6">Actor 6</label>
+    <input type="checkbox" name="actores" id="actor7" value="actor7"><label for="actor7">Actor 7</label>
+</div>
+
+<input type="submit" id="save" value="Grabar"></input>
+
+
+</form>
+
+<script type="module">
+
+    import MovieJsonBuilder from "./MovieJsonBuilder.js";
+
+    let save     = document.getElementById("save");
+
+    let moviesForm = document.getElementById("moviesForm");
+
+
+    const getFormData = () => {
+        event.preventDefault();
+
+        let moviesDataEntry = new FormData(moviesForm);
+        let jsonMovie = new MovieJsonBuilder();
+
+        let actores = [];
+
+
+        for (let item of moviesDataEntry.entries()) {
+            if (item[0] != "actores") {
+                jsonMovie.add(item[0], item[1]);
+            } else {
+                actores.push(item[1]);
+            }
+        }
+
+        jsonMovie.add("actores", actores);
+        let movie = jsonMovie.build();
+        console.log(movie);
+        console.log(jsonMovie.getJSON());
+    }
+
+    moviesForm.addEventListener("submit", getFormData);
+
+
+
+</script>
+
+
+</body>
+</html>

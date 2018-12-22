@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facade - Casa de apuestas</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+        }
+
+        label, input {
+            display: block;
+        }
+
+        input {
+            margin-bottom: 1rem;
+        }
+
+        .form__containers {
+            display: flex;
+        }
+
+        div[class^="form__user"] {
+            background-color: #b6dc63;
+            color: darkgreen;
+            border: 1px solid darkgreen;
+            padding: 1rem;
+            margin-right: 2rem;
+        }
+
+        div[class^="form__user"] input {
+            font-size: .8rem;
+            border: 1px solid darkgreen;
+            padding: .5rem;
+        }
+
+        div[class^="form__user"] label {
+            font-size: 0.7rem;
+            line-height: 1.5rem;
+            font-weight: bolder;
+        }
+
+        div[class^="form__user"] button {
+            font-size: 0.8rem;
+            line-height: 1.5rem;
+            font-weight: bolder;
+            color: darkgreen;
+            background-color: lightgreen;
+            border:1px solid darkgreen;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="form__containers">
+    <div class="form__user">
+        <h2>Datos de usuario</h2>
+        <label for="username">Nombre de usuario</label>
+        <input type="text" id="username" placeholder="Nombre de usuario">
+
+        <label for="userpass">Contraseña de usuario</label>
+        <input type="password" id="userpass" placeholder="Password">
+
+        <button id="btnUser">Login</button>
+    </div>
+
+    <div class="form__user__bet">
+        <h2>Apuesta</h2>
+        <label for="betAmount">Cantidad a apostar</label>
+        <input type="number" id="betAmount" placeholder="10">
+
+        <button id="btnApostar">Apostar</button>
+    </div>
+
+    <div class="form__user__bet">
+        <h2>Ingresar fondos</h2>
+        <label for="depositAmount">Cantidad a ingresar</label>
+        <input type="number" id="depositAmount" placeholder="10">
+
+        <button id="btnDeposit">Ingresar</button>
+    </div>
+
+    <div class="form__user__bet">
+        <h2>Retirar fondos</h2>
+        <label for="withdrawalAmount">Cantidad a retirar</label>
+        <input type="number" id="withdrawalAmount" placeholder="10">
+
+        <button id="btnWithdrawal">Retirar Fondos</button>
+    </div>
+
+</div>
+
+
+<script type="module">
+    import BetsFacade from './BetsFacade.js';
+
+    let user = document.getElementById("username");
+    let pass = document.getElementById("userpass");
+    let betAmount  = document.getElementById("betAmount");
+    let depositAmount  = document.getElementById("depositAmount");
+    let withdrawalAmount  = document.getElementById("withdrawalAmount");
+
+    let btnUser       = document.getElementById("btnUser");
+    let btnApostar    = document.getElementById("btnApostar");
+    let btnWithdrawal = document.getElementById("btnWithdrawal");
+    let btnDeposit    = document.getElementById("btnDeposit");
+
+    let bets = null;
+
+    const betFacadeCreation = () => {
+        bets = new BetsFacade(user.value, pass.value);
+        if (bets.usuarioValido()) {
+
+        }
+    }
+
+    const apostar = () => {
+        bets.apostar(parseInt(betAmount.value));
+    }
+
+    const ingresar = () => {
+        bets.ingresar(parseInt(depositAmount.value));
+    }
+
+    const retirar = () => {
+        bets.sacar(parseInt(withdrawalAmount.value));
+    }
+
+    btnUser.addEventListener('click', betFacadeCreation);
+    btnApostar.addEventListener('click', apostar);
+    btnWithdrawal.addEventListener('click', retirar);
+    btnDeposit.addEventListener('click', ingresar);
+
+</script>
+
+</body>
+</html>

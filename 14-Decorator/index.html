@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Decorator ejemplo</title>
+</head>
+<body>
+
+<script type="module">
+    import UpflixMovie from './build/Decorator.js';
+
+    let a = new UpflixMovie("Back to the Future");
+    console.log("El usuario ha visto la película: ", a.getVisited());
+    console.log("Historial: ", a.getViewed());
+    let res = a.getViewedActions();
+    res.then(result => {
+        console.log(result);
+    })
+
+    a.updateName("Back to the future 2");
+    console.log(a.name);
+
+    try {
+        UpflixMovie.prototype.getVisited = () => {
+            return 'Intento modificar el comportamiento de la función';
+        }
+    } catch (e) {
+        console.log("ERROR: %s", e.message);
+    }
+
+</script>
+
+</body>
+</html>

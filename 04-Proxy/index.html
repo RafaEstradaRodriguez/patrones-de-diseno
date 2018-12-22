@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Proxy - Ejemplo</title>
+</head>
+<body>
+
+<select id="urlImagen">
+    <option value="img1">Imagen 1</option>
+    <option value="img2">Imagen 2</option>
+    <option value="img3">Imagen 3</option>
+
+</select>
+
+<button id="loadBtn">Cargar imagen</button>
+
+<img src="" alt="" id="imgTarget">
+
+<script type="module">
+
+    import ImageLoaderProxy from './ImageLoaderProxy.js';
+
+    let options = document.getElementById("urlImagen");
+    let loadBtn = document.getElementById("loadBtn");
+    let imgTarget = document.getElementById("imgTarget");
+    let imgLoader = new ImageLoaderProxy(options.value);
+
+    let loadImage = () => {
+        imgLoader.setUrl(options.value);
+        imgLoader.load().then(image => {
+            imgTarget.src = URL.createObjectURL(image);
+        })
+    }
+    loadBtn.addEventListener('click', loadImage);
+
+
+</script>
+
+</body>
+</html>

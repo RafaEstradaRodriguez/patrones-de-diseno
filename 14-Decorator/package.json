@@ -1,0 +1,24 @@
+{
+  "name": "decorators",
+  "version": "1.0.0",
+  "description": "Decorators",
+  "main": "",
+  "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src-dec -d build"
+  },
+  "babel": {
+    "plugins": [
+      "transform-decorators-legacy"
+    ]
+  },
+  "author": "Ricky",
+  "license": "ISC"
+}

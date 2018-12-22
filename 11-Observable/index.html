@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Observables</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+        }
+
+        input {
+            font-family: inherit;
+            font-size: .9rem;
+            padding: .5rem;
+        }
+
+        button {
+            border:1px solid #1a5211;
+            background-color: #2A8E15;
+            color: #fff;
+            font-size: .8rem;
+            padding: .4rem;
+            cursor: pointer;
+            margin: 1rem .6rem 0 0;
+        }
+
+        .wrapper-eventos, .wrapper-visitor {
+            padding: 2rem;
+            background-color: #EEE;
+        }
+
+        .wrapper-visitor .label, .wrapper-eventos .label  {
+            display: block;
+            margin:1rem 0 .6rem 0;
+            font-size: .8rem;
+            font-weight: 600;
+            color: #777;
+        }
+
+        .wrapper-visitor input[type="checkbox"] {
+            margin: 1rem .6rem 1rem 0;
+        }
+
+        .wrapper-visitor label {
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+
+        .wrapper-visitor input[type="text"] {
+            width: 70%;
+        }
+
+        .backoffice {
+            display: grid;
+            grid-template-columns: 40% 1fr;
+            grid-gap: 1rem;
+        }
+
+        p.info {
+            font-size: .8rem;
+            color: #777;
+        }
+
+        p.name {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .visitor {
+            background-color: #EEE;
+            padding: .8rem;
+            margin-bottom: .7rem;
+            border: 1px solid #eaeaea;
+        }
+
+        .visitor li {
+            font-size: .8rem;
+            color: #333;
+            margin-bottom: .8rem;
+        }
+        .visitor li:nth-child(2n) {
+            color: #888;
+        }
+
+
+
+    </style>
+
+</head>
+<body>
+
+<section class="backoffice">
+
+    <div class="wrapper-eventos">
+        <h1>Eventos</h1>
+        <span class="label">Notificar evento:</span>
+        <datalist id="matchEvent">
+            <option value="gol">Gol</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="fin">Fin del partido</option>
+        </datalist>
+
+        <input list="matchEvent" id="event" placeholder="Selección de evento"><br>
+        <button id="eventLauncher">Notificar</button>
+    </div>
+    <div class="wrapper-visitor">
+        <h1>Gestión espectadores</h1>
+        <span class="label">Deseo suscribirme en:</span>
+        <input type="checkbox" name="interests" id="i1" value="gol"><label for="i1">Goles</label>
+        <input type="checkbox" name="interests" id="i2" value="tarjeta"><label for="i2">Tarjetas</label>
+        <input type="checkbox" name="interests" id="i3" value="fin"><label for="i3">Final de partidos</label>
+        <br>
+        <hr>
+        <span class="label">Nombre del espectador:</span>
+        <input type="text" id="visitorId" placeholder="Añade nombre de visitante"><br>
+        <button id="addVisitor">Añadir espectador</button>
+        <button id="reset">Nuevo espectador</button>
+
+    </div>
+
+</section>
+
+
+
+<div id="visitors">
+    <h1>Espectadores</h1>
+</div>
+
+<script type="module">
+
+    import Sut from './Sut.js';
+    import Observer from './Observer.js';
+
+    let eventCtrl = document.getElementById("event");
+    let visitorId = document.getElementById("visitorId");
+    let addVisitor = document.getElementById("addVisitor");
+    let visitors = document.getElementById("visitors");
+    let eventLauncher = document.getElementById("eventLauncher");
+
+    let sut = new Sut();
+
+
+    const addEventToList = (e, id) => {
+        let liEvent = document.createElement('li');
+        liEvent.innerText = `Se ha recibido un evento ${e} a las ${new Date()}`;
+        document.getElementById(`${id}-list`).appendChild(liEvent);
+    }
+
+    const launchEvent = () => {
+        let value = eventCtrl.value;
+        sut.emitAll(value, addEventToList);
+    }
+
+    const addEspectador = (name) => {
+        let events = getEventsChecked();
+        console.log("---- events-----");
+        console.log(events);
+        let html = `<div class="visitor"><p class="name">${name}</p><p class="info">Escuchando eventos: <strong>${events.toString()}</strong></p><ul id="${name}-list"></ul></div>`;
+        let auxDiv = document.createElement('div');
+        auxDiv.innerHTML = html;
+
+        let fragment = document.createDocumentFragment();
+        fragment.appendChild(auxDiv);
+        visitors.appendChild(fragment);
+
+        let espectador = new Observer(name);
+        espectador.addTopics(events);
+
+        sut.addObserver(espectador  );
+    }
+
+    const getEventsChecked = () => {
+        let events = document.querySelectorAll('input[type="checkbox"]:checked');
+        let res = [];
+
+        for (event of events) {
+            res.push(event.value);
+        }
+
+        return res;
+    }
+
+    addVisitor.addEventListener('click', () => {
+        addEspectador(visitorId.value);
+        let visitor = new Observer(visitorId);
+        let checkedEvents = document.querySelectorAll('input[type="checkbox"]:checked');
+        for (let ev of checkedEvents) {
+            visitor.addTopic(ev.value);
+        }
+    })
+
+    eventLauncher.addEventListener('click', launchEvent);
+
+</script>
+
+
+</body>
+</html>

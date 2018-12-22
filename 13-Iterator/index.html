@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipos de Futbol - Iterador</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<div id="campoLocal" class="campo">
+    <img src="" alt="" id="escudo-local" class="escudo">
+</div>
+<div id="campoVisitante" class="campo">
+    <img src="" alt="" id="escudo-visitante" class="escudo">
+</div>
+
+
+
+
+<script type="module">
+    import {equipos} from './equipos.js';
+    import EquiposIterable from './EquiposIterable.js';
+    import JugadoresIterable from './JugadoresIterable.js';
+
+    const numJugadoresEquipo = 11;
+
+    let listaJugadoresLocal = new JugadoresIterable(equipos.local.jugadores);
+    listaJugadoresLocal.setIterador();
+
+    let listaJugadoresVisitante = new JugadoresIterable(equipos.visitante.jugadores);
+    listaJugadoresVisitante.setIterador();
+
+    let campoLocal     = document.getElementById("campoLocal");
+    let campoVisitante = document.getElementById("campoVisitante");
+
+    const creaJugador = (jugador, equipo) => {
+        let innerHTML = `<span data-puesto="${jugador.puesto}">${jugador.nombre}</span>`;
+        let wrapper = document.createElement('div');
+        wrapper.innerHTML = innerHTML;
+        //wrapper.style.gridArea = jugador.puesto;
+        wrapper.setAttribute("style", `grid-area: ${jugador.puesto}`);
+        let target = equipo == "local" ? campoLocal : campoVisitante;
+        target.appendChild(wrapper);
+    }
+
+
+
+    for (let equipo of [listaJugadoresLocal, listaJugadoresVisitante]) {
+        let condicion = equipo == listaJugadoresLocal ? "local" : "visitante";
+        let escudo = document.getElementById(`escudo-${condicion}`);
+        escudo.src = equipos[condicion].escudo;
+        for (let j = 0; j < numJugadoresEquipo; j++ ) {
+            console.log(equipo.iterator.curItem());
+            creaJugador(equipo.iterator.curItem(), condicion);
+            equipo.iterator.next();
+        }
+    }
+
+
+
+</script>
+
+</body>
+</html>

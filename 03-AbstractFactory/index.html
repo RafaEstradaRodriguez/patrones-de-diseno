@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Factorías de Colores - AbstractFactory Pattern</title>
+
+    <style>
+        .color--disabled {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+
+<select name="forColor" id="forColor"></select>
+<select name="sistemaColor" id="sistemaColor"></select>
+
+<div id="colorControls"></div>
+
+<button id="colorBtn" class="color--disabled"></button>
+
+<script type="module">
+
+    import AbstractColorFactory from './AbstractColorFactory.js';
+    import ViewControlsFactory from "./ViewControlsFactory.js";
+
+    let colorDestination = document.getElementById("forColor");
+    let sistemaColor     = document.getElementById("sistemaColor");
+    let colorControls    = document.getElementById("colorControls");
+
+    const createOption = (text, value) => {
+        let optionCtrl = document.createElement('option');
+        optionCtrl.value = value;
+        optionCtrl.innerText = text;
+
+        return optionCtrl;
+    }
+
+    const createNumber = (min, max, id) => {
+        let numberCtrl = document.createElement("input");
+        numberCtrl.setAttribute("type", "number");
+        numberCtrl.setAttribute("min", min);
+        numberCtrl.setAttribute("max", max);
+        numberCtrl.id = id;
+
+        return numberCtrl;
+    }
+
+    const setColorDestinationOptions = () => {
+        let options = AbstractColorFactory.getTypes();
+
+        for (let option in options) {
+            forColor.appendChild(createOption(option, options[option]));
+        }
+
+        colorDestination.addEventListener('change', setSistemaColorValues);
+    }
+
+    const setSistemaColorValues = () => {
+        while (sistemaColor.firstChild) {
+            sistemaColor.removeChild(sistemaColor.firstChild);
+        }
+        let ColorFactory = AbstractColorFactory.getColorFactory(colorDestination.value);
+
+        let options = ColorFactory.getTypes();
+
+        for (let option in options) {
+            sistemaColor.appendChild(createOption(option, options[option]));
+        }
+
+        sistemaColor.removeEventListener('change', addHTMLColorControls);
+        sistemaColor.addEventListener('change', addHTMLColorControls);
+
+        addHTMLColorControls();
+    }
+
+    const addHTMLColorControls = () => {
+        while (colorControls.firstChild) {
+            colorControls.removeChild(colorControls.firstChild);
+        }
+        let ColorFactory = AbstractColorFactory.getColorFactory(colorDestination.value);
+        let color = ColorFactory.getColor(parseInt(sistemaColor.value));
+
+        let templateFragment = ViewControlsFactory.getHTMLControls(color.getType());
+        colorControls.innerHTML = templateFragment;
+
+    }
+
+    setColorDestinationOptions();
+    setSistemaColorValues();
+
+</script>
+
+
+</body>
+</html>
+

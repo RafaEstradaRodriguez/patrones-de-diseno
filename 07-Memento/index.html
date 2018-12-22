@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo de Memento</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <style>
+
+        body, textarea {
+            font-family: "Open Sans", sans-serif;
+        }
+
+        textarea {
+            font-size: 1rem;
+            padding: .5rem;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<textarea name="textoEjemplo" id="textoEjemplo" cols="30" rows="10"></textarea>
+<input type="button" id="undoButton" value="Deshacer">
+<input type="button" id="infoButton" value="Info">
+
+<script type="module">
+    import TextFieldSnapshots from './TextFieldSnapshots.js';
+    import TextFieldMemento from './TextFieldMemento.js';
+
+    let infoControl = document.getElementById("infoButton");
+    let undoControl = document.getElementById("undoButton");
+    let textControl = document.getElementById("textoEjemplo");
+    let snapshots = new TextFieldSnapshots();
+
+    infoControl.addEventListener('click', () => {
+        console.log(snapshots);
+    });
+
+    undoControl.addEventListener('click', () => {
+        let state = snapshots.getSnapshot();
+        if (state) {
+            textControl.value = state.getTexto();
+        }
+    });
+
+
+    const takeSnapshot = (e) => {
+        if (e.keyCode == 32) {
+            snapshots.addSnapshot(new TextFieldMemento(textControl.value));
+        }
+
+    }
+    textControl.addEventListener("keyup", takeSnapshot);
+
+</script>
+
+
+</body>
+</html>

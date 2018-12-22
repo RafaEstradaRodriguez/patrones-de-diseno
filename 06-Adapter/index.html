@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adapter Patter</title>
+</head>
+<body>
+
+<div id="results-orig"></div>
+<div id="results-old"></div>
+<div id="results-new"></div>
+
+<script type="module">
+    import ArticuloAdapter from './ArticuloAdapter.js';
+    import {oldInputFormat, newInputFormat} from './input.json.js';
+    import Articulo from "./Articulo.js";
+
+    let resultsOrigDiv = document.getElementById("results-orig");
+    let resultsOldDiv = document.getElementById("results-old");
+    let resultsNewDiv = document.getElementById("results-new");
+
+    const artOrig = new Articulo(oldInputFormat);
+    let origContent = artOrig.render();
+    resultsOrigDiv.innerHTML = origContent;
+
+
+    const articulo = new ArticuloAdapter(oldInputFormat);
+    let oldContentRendered = articulo.render();
+
+    resultsOldDiv.innerHTML = oldContentRendered;
+
+    const articulo2 = new ArticuloAdapter(newInputFormat);
+    let newContentRendered = articulo2.render();
+    resultsNewDiv.innerHTML = newContentRendered;
+
+
+</script>
+
+
+</body>
+</html>

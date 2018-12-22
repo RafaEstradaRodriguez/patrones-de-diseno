@@ -1,0 +1,46 @@
+body {
+    font-family: "Open Sans", sans-serif;
+}
+.campo {
+    background-color: #1a5211;
+    color: #fff;
+    display: grid;
+    grid-template-areas: "gk    gk    gk    gk"
+                         "df1   df2   df3   df4"
+                         "mid1  mid2  mid3  mid4"
+                         "del1  del1  del2  del2";
+    grid-template-columns: repeat(4, 25%);
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    position: relative;
+}
+
+img {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 80px;
+}
+
+#campoVisitante {
+    grid-template-areas:
+        "del1  del1  del2  del2"
+        "mid1  mid2  mid3  mid4"
+        "df1   df2   df3   df4"
+        "gk    gk    gk    gk";
+
+    margin-top: .5rem;
+
+}
+
+.campo div > span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+
+}
+
+
+
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Launcher MediaElements</title>
+    <style>
+        audio {
+            border:1px solid #f00;
+        }
+    </style>
+</head>
+<body>
+
+<audio src="./true.mp3" id="audio-player" controls></audio>
+<video src="./sample.mp4" id="video-player" width="500"></video>
+
+<select name="media-elems" id="media-elems">
+    <option value="video">Video</option>
+    <option value="audio">Audio</option>
+</select>
+
+<select name="commands" id="commands">
+    <option value="play">Play</option>
+    <option value="pause">Pause</option>
+    <option value="stop">Stop</option>
+</select>
+
+<button id="action">Go!</button>
+
+<script type="module">
+    import MediaCommand from './MediaCommand.js';
+
+    let videoP = document.getElementById("video-player");
+    let audioP = document.getElementById("audio-player");
+
+    let commands   = document.getElementById("commands");
+    let mediaItems = document.getElementById("media-elems");
+
+    let action = document.getElementById("action");
+
+    let mediaCommand = new MediaCommand(null);
+
+    const ejecutarAccion = () =>  {
+        mediaCommand.target = mediaItems.value == "video" ? videoP : audioP;
+        mediaCommand.execute(commands.value);
+    }
+
+    action.addEventListener('click', ejecutarAccion);
+
+
+
+</script>
+
+</body>
+</html>

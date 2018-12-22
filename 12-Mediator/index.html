@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Typing game</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+
+<header id="game-header">
+    <div class="wrapper-tiempo">
+        <p>Tiempo de juego</p>
+        <h2 id="tiempo-juego"></h2>
+    </div>
+
+    <section id="player1" class="player">
+        <p class="label-user">Player 1</p>
+        <p id="name-1" class="player__data">Anónimo</p>
+        <p class="label-user">Score</p>
+        <p id="score-player-1" class="player__data">0</p>
+    </section>
+
+    <section id="player2" class="player">
+        <p class="label-user">Player 2</p>
+        <p id="name-2" class="player__data">Anónimo</p>
+        <p class="label-user">Score</p>
+        <p id="score-player-2" class="player__data">0</p>
+    </section>
+
+</header>
+
+
+<section class="copia-frase">
+    <h1 id="sentence"></h1>
+    <h1 id="player-sentence"></h1>
+</section>
+
+<textarea id="input-sentence" placeholder="Escribe aquí la frase lo más rápido que puedas..."></textarea>
+<input type="button" id="startEndAction" value="Empezar">
+
+<section id="winner-lightbox" class="winner-lightbox off">
+    <div>
+        <h3>The winner is:</h3>
+        <h4 id="winner-name">Ricky</h4>
+        <dl>
+            <dt>Player 1 - Score</dt>
+            <dd id="p1-score-final"></dd>
+            <dt>Player 2 - Score</dt>
+            <dd id="p2-score-final"></dd>
+        </dl>
+        <input type="button" value="Cerrar" id="winner-box-action">
+    </div>
+</section>
+
+<section id="player-turn" class="off">
+    <div>
+        <h3 id="player-turn-name"></h3>
+        <h4 id="player-turn-timer"></h4>
+    </div>
+</section>
+
+<script type="module">
+
+    import TypingGameMediator from "./Mediator.js";
+    import GameStates from "./GameStates.js";
+    import ViewControlsStates from "./ViewControlsStates.js";
+    import ScoreBoard from "./ScoreBoard.js";
+
+    let sentenceViewControl = document.getElementById("sentence");
+    let inputControl = document.getElementById("input-sentence");
+    let playerSentence = document.getElementById("player-sentence");
+
+    let tiempoJuego = document.getElementById("tiempo-juego");
+    let startEndAction = document.getElementById("startEndAction");
+
+    let winnerBox = document.getElementById("winner-lightbox");
+    let winnerName = document.getElementById("winner-name");
+    let winnerBoxAction = document.getElementById("winner-box-action");
+    let playerTurn = document.getElementById("player-turn");
+    let playerTurnTimer = document.getElementById("player-turn-timer");
+    let playerTurnName = document.getElementById("player-turn-name");
+
+
+    let gameStates = new GameStates();
+
+    let viewControls = {
+        targetSentenceCtrl: sentenceViewControl,
+        userSentenceCtrl: playerSentence,
+        userInputCtrl: inputControl,
+        timeCtrl: tiempoJuego,
+        userActionCtrl: startEndAction,
+        winnerBox: winnerBox,
+        winnerName: winnerName,
+        winnerBoxAction: winnerBoxAction,
+        playerTurn: playerTurn,
+        playerTurnName: playerTurnName,
+        playerTurnTimer: playerTurnTimer,
+        score: new ScoreBoard(document)
+    };
+
+    let game = new TypingGameMediator(viewControls, gameStates, new ViewControlsStates(viewControls));
+    game.startGame();
+
+</script>
+
+
+</body>
+</html>

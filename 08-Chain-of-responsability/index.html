@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo de Chain of Responsability</title>
+
+    <style>
+        html, body {
+            background-color: #f00;
+        }
+        .img-wrapper {
+            min-width: 100%;
+            min-height: 100%;
+            background-color: #EEE;
+        }
+
+        canvas {
+            width: 400px;
+            height: 266px;
+            border: 2px solid #0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="img-wrapper">
+        <img src="./girl.jpg" id="sourceimg" width="800" height="533">
+    </div>
+
+    <canvas id="myCanvas" width="400" height="266"></canvas>
+
+
+
+    <script type="module">
+
+        import CropAction from './CropAction.js';
+        import ResizeAction from './ResizeAction.js';
+
+        /* -- main -- */
+        let img = document.getElementById('sourceimg');
+
+        let canvas = document.getElementById('myCanvas');
+
+        let cropAction = new CropAction();
+        cropAction.setNextAction(new ResizeAction());
+        cropAction.render(img, canvas);
+
+        let resizeAction = new ResizeAction();
+        resizeAction.render();
+
+    </script>
+</body>
+</html>
